@@ -3,13 +3,12 @@ import { useWorkoutDraft } from '../application/useWorkoutDraft'
 import { formatDuration } from '../domain/workout'
 
 export function WorkoutBuilder() {
-  const { duration, result, addRunPhase, editDuration } = useWorkoutDraft()
+  const { duration, result, errors, addRunPhase, editDuration, focusDuration, blurDuration } = useWorkoutDraft()
   const minutesRef = useRef<HTMLInputElement>(null)
   const hasPhase = duration !== null
   useEffect(() => {
     if (hasPhase) minutesRef.current?.focus()
   }, [hasPhase])
-  const errors = result.status === 'incomplete' ? result.errors : {}
 
   return (
     <main className="workout-builder">
@@ -46,8 +45,12 @@ export function WorkoutBuilder() {
                       aria-invalid={Boolean(errors[field])}
                       aria-describedby={`duration-help${errors[field] ? ` ${field}-error` : ''}`}
                       onChange={event => editDuration(field, event.target.value)}
+                      onFocus={() => focusDuration(field)}
+                      onBlur={() => blurDuration(field)}
                     />
-                    {errors[field] && <p className="field-error" id={`${field}-error`}>{errors[field]}</p>}
+                    <div aria-live="polite" aria-atomic="true">
+                      {errors[field] && <p className="field-error" id={`${field}-error`}>{errors[field]}</p>}
+                    </div>
                   </div>
                 ))}
               </div>

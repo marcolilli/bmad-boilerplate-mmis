@@ -59,7 +59,7 @@ This builds the production app, starts its own temporary local preview on an ava
 ## Implemented scope
 
 - One running phase, with raw minutes/seconds retained in an in-memory controller.
-- Pure domain validation and calculation; only positive whole-second durations within JavaScript's safe integer range are accepted. Seconds must be 0–59. Invalid or missing values show associated text errors and an incomplete preview instead of a total.
+- Pure domain validation and calculation; only positive whole-second durations within JavaScript's safe integer range are accepted. Seconds must be 0–59. Invalid or missing values keep the preview incomplete instead of showing a total. Field errors appear only when leaving the field (blur); initial focus and typing show no new errors, and refocusing clears that field’s message until the next blur.
 - Native keyboard controls, focus moved into the added editor, responsive layout, local assets and system fonts.
 
 There is no saving: reloading or closing the page clears the draft. Multiple phases, other phase types, intervals, suggestions, a library, accounts and a backend are outside this slice. Once loaded, editing works without a connection; opening the app offline is not guaranteed. There is no service worker.
